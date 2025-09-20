@@ -1,7 +1,0 @@
-/mvnw text eol=lf
-*.cmd text eol=crlf
-
-# 标记框架代码为已生成
-src/framework/* linguist-generated=true
-*.min.js linguist-generated=true
-vendor/* linguist-generated=true
