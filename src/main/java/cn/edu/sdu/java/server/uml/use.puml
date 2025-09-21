@@ -1,5 +1,11 @@
 @startuml
 'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+actor Student
+actor Admin
+
 Student ---> (登录)
 Admin --->(登录)
 Admin ---> (修改密码)

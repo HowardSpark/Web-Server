@@ -75,4 +75,108 @@ public class Person {
     @Basic(fetch = FetchType.LAZY)
     @Column(name=" photo", columnDefinition="longblob", nullable=true)
     private byte[] photo;
+
+    public Integer getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
+    }
+
+    public @NotBlank @Size(max = 20) String getNum() {
+        return num;
+    }
+
+    public void setNum(@NotBlank @Size(max = 20) String num) {
+        this.num = num;
+    }
+
+    public @Size(max = 50) String getName() {
+        return name;
+    }
+
+    public void setName(@Size(max = 50) String name) {
+        this.name = name;
+    }
+
+    public @Size(max = 2) String getType() {
+        return type;
+    }
+
+    public void setType(@Size(max = 2) String type) {
+        this.type = type;
+    }
+
+    public @Size(max = 50) String getDept() {
+        return dept;
+    }
+
+    public void setDept(@Size(max = 50) String dept) {
+        this.dept = dept;
+    }
+
+    public @Size(max = 20) String getCard() {
+        return card;
+    }
+
+    public void setCard(@Size(max = 20) String card) {
+        this.card = card;
+    }
+
+    public @Size(max = 2) String getGender() {
+        return gender;
+    }
+
+    public void setGender(@Size(max = 2) String gender) {
+        this.gender = gender;
+    }
+
+    public @Size(max = 10) String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(@Size(max = 10) String birthday) {
+        this.birthday = birthday;
+    }
+
+    public @Size(max = 60) @Email String getEmail() {
+        return email;
+    }
+
+    public void setEmail(@Size(max = 60) @Email String email) {
+        this.email = email;
+    }
+
+    public @Size(max = 20) String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(@Size(max = 20) String phone) {
+        this.phone = phone;
+    }
+
+    public @Size(max = 20) String getAddress() {
+        return address;
+    }
+
+    public void setAddress(@Size(max = 20) String address) {
+        this.address = address;
+    }
+
+    public @Size(max = 1000) String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(@Size(max = 1000) String introduce) {
+        this.introduce = introduce;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
 }

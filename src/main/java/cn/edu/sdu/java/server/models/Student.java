@@ -16,6 +16,8 @@ import jakarta.validation.constraints.Size;
  */
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.poi.xwpf.usermodel.XWPFNumbering;
+
 @Getter
 @Setter
 @Entity
@@ -37,4 +39,35 @@ public class Student {
     @Size(max = 50)
     private String className;
 
+    public Integer getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public @Size(max = 20) String getMajor() {
+        return major;
+    }
+
+    public void setMajor(@Size(max = 20) String major) {
+        this.major = major;
+    }
+
+    public @Size(max = 50) String getClassName() {
+        return className;
+    }
+
+    public void setClassName(@Size(max = 50) String className) {
+        this.className = className;
+    }
 }

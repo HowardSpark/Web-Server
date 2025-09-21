@@ -15,6 +15,7 @@ class StudentFamily
 class StudentRelation
 class Active
 class StudentActive
+class Honor
 
 Student "1" --* Person
 Teacher "1" --* Person
@@ -30,6 +31,6 @@ StudentFamily  "many" --o Student
 StudentRelation "many"  --o Student
 StudentActive  "many" --o Student
 StudentActive  "many" --o Active
-
+Honor "many" --o Student
 
 @enduml
