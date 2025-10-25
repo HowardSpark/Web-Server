@@ -24,6 +24,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByPersonNum(String perNum);
     Optional<User> findByPersonPersonId(Integer personId);
 
+    @Query(value = "select p from User p where userName =?1")
+    User findUserByUserName(String userName);
 
     Boolean existsByUserName(String userName);
     @Query(value="select count(*) from User where lastLoginTime >?1")
