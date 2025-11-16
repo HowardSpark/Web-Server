@@ -24,8 +24,10 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -515,4 +517,7 @@ public class StudentService {
         data.put("feeList", getStudentFeeList(s.getPersonId()));
         return CommonMethod.getReturnData(data);//将前端所需数据保留Map对象里，返还前端
     }
-}
+
+    }
+
+
