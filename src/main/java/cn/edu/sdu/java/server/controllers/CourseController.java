@@ -2,6 +2,7 @@ package cn.edu.sdu.java.server.controllers;
 
 import cn.edu.sdu.java.server.payload.request.DataRequest;
 import cn.edu.sdu.java.server.payload.response.DataResponse;
+import cn.edu.sdu.java.server.payload.response.OptionItemList;
 import cn.edu.sdu.java.server.services.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,9 @@ public class CourseController {
     @PostMapping("/courseDelete")
     public DataResponse courseDelete(@Valid @RequestBody DataRequest dataRequest) {
         return courseService.courseDelete(dataRequest);
+    }
+    @PostMapping("/getCourseItemOptionList")
+    public OptionItemList getCourseItemOptionList(@Valid @RequestBody DataRequest dataRequest) {
+        return courseService.getCourseItemOptionList(dataRequest);
     }
 }

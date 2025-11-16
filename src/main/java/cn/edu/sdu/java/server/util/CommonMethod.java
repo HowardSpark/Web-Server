@@ -404,4 +404,5 @@ public class CommonMethod {
         style.setBorderRight(BorderStyle.THIN);
         return style;
     }
-}
+    }
+
