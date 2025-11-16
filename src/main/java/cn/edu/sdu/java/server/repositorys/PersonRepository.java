@@ -19,4 +19,8 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
 
     @Query("select p from Person p where personId=?1")
     Person findByPersonId(Integer personId);
+
+    @Query("select p.personId from Person p where name=?1")
+    Person findPersonIdByName(String name);
+
 }

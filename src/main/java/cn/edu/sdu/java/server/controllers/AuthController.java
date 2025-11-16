@@ -48,8 +48,12 @@ public class AuthController {
     public DataResponse forgetPasswordAuthentication(@Valid @RequestBody DataRequest dataRequest) {
         return authService.forgetPasswordAuthentication(dataRequest);
     }
-    @PostMapping("/forgetPasswordChange")
-    public DataResponse forgetPasswordChange(@Valid @RequestBody DataRequest dataRequest) {
-        return authService.forgetPasswordChange(dataRequest);
+    @PostMapping("/forgetPasswordChangePassword")
+    public DataResponse forgetPasswordChangePassword(@Valid @RequestBody DataRequest dataRequest) {
+        return authService.forgetPasswordChangePassword(dataRequest);
     }
+//    @PostMapping("/forgetPasswordChange")
+//    public DataResponse forgetPasswordChange(@Valid @RequestBody DataRequest dataRequest) {
+//        return authService.forgetPasswordChange(dataRequest);
+//    }
 }

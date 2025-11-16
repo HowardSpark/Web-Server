@@ -18,7 +18,9 @@ import java.util.Optional;
  */
 
 public interface StudentRepository extends JpaRepository<Student,Integer> {
-    Optional<Student> findByPersonPersonId(Integer personId);
+    @Query("select s from Student s where personId =?1")
+    Student findByPersonId(Integer personId);
+
     Optional<Student> findByPersonNum(String num);
     List<Student> findByPersonName(String name);
 

@@ -156,7 +156,12 @@ public DataResponse forgetPasswordAuthentication(@Valid @RequestBody DataRequest
     }
 }
 
-    public DataResponse forgetPasswordChange(@Valid DataRequest dataRequest) {
-
-    }
+    public DataResponse forgetPasswordChangePassword(@Valid DataRequest dataRequest) {
+        String username=dataRequest.getString("username");
+        String newPassword = dataRequest.getString("newPassword");
+        User user=userRepository.findUserByUserName(username);
+        user.setPassword(encoder.encode(newPassword));
+        userRepository.save(user);
+        return CommonMethod.getReturnMessageOK();
+   }
 }
