@@ -32,6 +32,28 @@ public class AbsenceService {
         this.absenceRepository = absenceRepository;
         this.studentRepository = studentRepository;
     }
+    public DataResponse setResult(DataRequest dataRequest) {
+        String result=dataRequest.getString("result");
+        System.out.println(result);
+        Integer absenceId=Integer.parseInt(dataRequest.getString("absenceId"));
+        Optional<Absence> absence=absenceRepository.findById(absenceId);
+        Absence ab= absence.get();
+        if(result.equals("同意")){
+           ab.setResult("已批准");
+           try{absenceRepository.save(ab);}
+           catch(Exception e){
+               return CommonMethod.getReturnMessageError("后端请求失败");
+           }
+           }
+        else{
+            ab.setResult("已拒绝");
+            try{absenceRepository.save(ab);}
+            catch(Exception e){
+                return CommonMethod.getReturnMessageError("后端请求失败");
+            }
+        }
+        return CommonMethod.getReturnMessageOK();
+    }
     public DataResponse getAbsenceList() {
         Integer personId = CommonMethod.getPersonId();//先获取到自己的personid，后面再做角色判断，学生一个查询方法，老师一个查询方法
         if (Objects.equals(CommonMethod.getRoleName(), "ROLE_STUDENT")) {

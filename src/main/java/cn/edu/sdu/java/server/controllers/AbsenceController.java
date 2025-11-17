@@ -31,4 +31,8 @@ public class AbsenceController {
     public OptionItemList getTeacherItemOptionList(@Valid @RequestBody DataRequest dataRequest) {
         return absenceService.getTeacherItemOptionList(dataRequest);
     }
+    @PostMapping("/setResult")
+    public DataResponse setResult(@Valid @RequestBody DataRequest dataRequest) {
+        return absenceService.setResult(dataRequest);
+    }
 }
