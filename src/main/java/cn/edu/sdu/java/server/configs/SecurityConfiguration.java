@@ -22,8 +22,8 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfiguration(
-        JwtAuthenticationFilter jwtAuthenticationFilter,
-        AuthenticationProvider authenticationProvider
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            AuthenticationProvider authenticationProvider
     ) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -31,48 +31,34 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.cors(cors -> cors.configurationSource(request -> {
-            CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(List.of("*"));
-            configuration.setAllowedMethods(List.of("*"));
-            configuration.setAllowedHeaders(List.of("*"));
-            return configuration;
-        }));
         http
-                .authorizeHttpRequests(
-                        authz -> {
-                            try {
-                                authz
-                                        .requestMatchers("/api/**")
-                                        .authenticated()
-                                        .anyRequest().permitAll();
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                );
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.authenticationProvider(authenticationProvider)
+                .csrf(AbstractHttpConfigurer::disable) // 关闭CSRF（前后端分离必需）
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // 引用统一的CORS配置
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/api/**") // 所有/api/*路径都需要登录认证
+                        .authenticated()
+                        .anyRequest().permitAll() // 非/api路径放行（如登录接口/login）
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 无状态（JWT用）
+                )
+                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
+    // 统一的CORS跨域配置（删除重复配置，避免冲突）
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(List.of("http://localhost:8005"));
-        configuration.setAllowedMethods(List.of("GET","POST"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        configuration.setAllowedOrigins(List.of("http://localhost:8005")); // 允许前端地址
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE")); // 允许所有请求方法
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // 允许携带的请求头（含JWT的Authorization）
+        configuration.setAllowCredentials(true); // 允许携带Cookie（可选，JWT不需要但建议开启）
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-        source.registerCorsConfiguration("/**",configuration);
-
+        source.registerCorsConfiguration("/**", configuration); // 对所有路径生效
         return source;
     }
-
-
 }

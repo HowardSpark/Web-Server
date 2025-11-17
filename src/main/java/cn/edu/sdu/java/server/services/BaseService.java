@@ -9,6 +9,7 @@ import cn.edu.sdu.java.server.payload.response.OptionItemList;
 import cn.edu.sdu.java.server.repositorys.*;
 import cn.edu.sdu.java.server.util.ComDataUtil;
 import cn.edu.sdu.java.server.util.CommonMethod;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -361,7 +362,7 @@ public class BaseService {
         if (!encoder.matches(oldPassword, u.getPassword())) {
             return CommonMethod.getReturnMessageError("原始密码不正确！");
         }
-        u.setPassword(encoder.encode(newPassword));
+        u.setPassword(encoder.encode(newPassword));//密码加密后保存，直接就是更改后的密码
         userRepository.save(u);
         return CommonMethod.getReturnMessageOK();  //通知前端操作正常
     }
@@ -394,28 +395,58 @@ public class BaseService {
         }
     }
 
-
-
     //  Web 请求
     public DataResponse getPhotoImageStr(DataRequest dataRequest) {
-        String fileName = dataRequest.getString("fileName");
         String str = "";
+        Integer personId = dataRequest.getInteger("personId");
+        System.out.println(personId);
         try {
-            File file = new File(attachFolder + fileName);
-            int len = (int) file.length();
-            byte[] data = new byte[len];
-            FileInputStream in = new FileInputStream(file);
-            len = in.read(data);
-            in.close();
-            String imgStr = "data:image/png;base64,";
-            String s = new String(Base64.getEncoder().encode(data));
-            imgStr = imgStr + s;
-            return CommonMethod.getReturnData(imgStr);
+            byte[] data;
+            Optional<Person> op = personRepository.findById(personId);
+            if (op.isPresent()) {
+                Person p = op.get();
+                data = p.getPhoto();
+                String imgStr = "data:image/png;base64,";
+                String s = new String(Base64.getEncoder().encode(data));
+                imgStr = imgStr + s;
+                System.out.println(imgStr);
+                return CommonMethod.getReturnData(imgStr);
+            }
         } catch (Exception e) {
             log.error(e.getMessage());
         }
         return CommonMethod.getReturnMessageError("下载错误！");
     }
+
+
+//    //  Web 请求
+//    public DataResponse getPhotoImageStr(DataRequest dataRequest) {
+//        String fileName = dataRequest.getString("fileName");
+//        System.out.println(fileName);
+//        System.out.println(attachFolder);
+//        String str = "";
+//        try {
+//            File file = new File("/Users/huohuade/Desktop/" + fileName);
+////            System.out.println(file);
+//            int len = (int) file.length();
+//            System.out.println(len);
+//            byte[] data = new byte[len];
+////            System.out.println(data);
+//            FileInputStream in = new FileInputStream(file);
+////            System.out.println("1");
+//            len = in.read(data);
+//            in.close();
+//            String imgStr = "data:image/png;base64,";
+//            String s = new String(Base64.getEncoder().encode(data));
+////            System.out.println(s);
+//            imgStr = imgStr + s;
+////            System.out.println(imgStr);
+//            return CommonMethod.getReturnData(imgStr);
+//        } catch (Exception e) {
+//            log.error(e.getMessage());
+//        }
+//        return CommonMethod.getReturnMessageError("下载错误！");
+//    }
 
     public DataResponse uploadPhotoWeb(Map<String,Object> pars, MultipartFile file) {
         try {

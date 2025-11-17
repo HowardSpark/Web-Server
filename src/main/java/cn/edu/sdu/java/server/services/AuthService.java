@@ -74,13 +74,13 @@ public class AuthService {
                 userDetails.getPerName(),
                 roles.getFirst()));
     }
-    public DataResponse getValidateCode(DataRequest dataRequest) {
+    public DataResponse getValidateCode() {
         return CommonMethod.getReturnData(LoginControlUtil.getInstance().getValidateCodeDataMap());
     }
 
     public DataResponse testValidateInfo( DataRequest dataRequest) {
-        Integer validateCodeId = dataRequest.getInteger("validateCodeId");
-        String validateCode = dataRequest.getString("validateCode");
+        Integer validateCodeId = dataRequest.getInteger("VerificationCodeId");
+        String validateCode = dataRequest.getString("VerificationCode");
         LoginControlUtil li =  LoginControlUtil.getInstance();
         if(validateCodeId == null || validateCode== null || validateCode.isEmpty()) {
             return CommonMethod.getReturnMessageError("验证码为空！");
@@ -136,5 +136,32 @@ public class AuthService {
         }
         return CommonMethod.getReturnData(LoginControlUtil.getInstance().getValidateCodeDataMap());
     }
+public DataResponse forgetPasswordAuthentication(@Valid @RequestBody DataRequest dataRequest){
+    String username = dataRequest.getString("username");
+    String email = dataRequest.getString("email");
+    User user=userRepository.findUserByUserName(username);
+    if(user==null) {
+        return CommonMethod.getReturnMessageError("用户名错误，请检查用户名是否正确或是否注册");
+    }
+    Integer personId=user.getPersonId();
+    Person person = personRepository.findByPersonId(personId);
+    if(person.getEmail()==null) {
+        return CommonMethod.getReturnMessageError("该用户不存在邮箱，请联系管理员添加邮箱");
+    }
+    if(person.getEmail().equals(email)) {
+        return CommonMethod.getReturnMessageOK();
+    }
+    else {
+        return CommonMethod.getReturnMessageError("邮箱不匹配，请联系管理员添加邮箱或查询邮箱");
+    }
+}
 
+    public DataResponse forgetPasswordChangePassword(@Valid DataRequest dataRequest) {
+        String username=dataRequest.getString("username");
+        String newPassword = dataRequest.getString("newPassword");
+        User user=userRepository.findUserByUserName(username);
+        user.setPassword(encoder.encode(newPassword));
+        userRepository.save(user);
+        return CommonMethod.getReturnMessageOK();
+   }
 }

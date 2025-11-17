@@ -18,6 +18,7 @@ public class Teacher {
 
     @OneToOne
     @JoinColumn(name="personId")
+    @JsonIgnore
     private Person person;
 
     @Size(max = 20)

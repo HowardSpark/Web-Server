@@ -1,8 +1,11 @@
 package cn.edu.sdu.java.server.services;
 
 import cn.edu.sdu.java.server.models.Course;
+import cn.edu.sdu.java.server.models.Teacher;
 import cn.edu.sdu.java.server.payload.request.DataRequest;
 import cn.edu.sdu.java.server.payload.response.DataResponse;
+import cn.edu.sdu.java.server.payload.response.OptionItem;
+import cn.edu.sdu.java.server.payload.response.OptionItemList;
 import cn.edu.sdu.java.server.repositorys.CourseRepository;
 import cn.edu.sdu.java.server.util.CommonMethod;
 import org.springframework.stereotype.Service;
@@ -85,4 +88,12 @@ public class CourseService {
         return CommonMethod.getReturnMessageOK();
     }
 
+    public OptionItemList getCourseItemOptionList(DataRequest dataRequest) {
+        List<Course> list = courseRepository.findAll();
+        List<OptionItem> ret = new ArrayList<>();
+        for(Course i : list ){
+            ret.add(new OptionItem(i.getCourseId(), i.getNum(),i.getNum()+"-"+i.getName()));
+        }
+        return new OptionItemList(0,ret);
+    }
 }

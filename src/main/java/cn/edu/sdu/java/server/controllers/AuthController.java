@@ -31,9 +31,9 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         return authService.authenticateUser(loginRequest);
     }
-    @PostMapping("/getValidateCode")
-    public DataResponse getValidateCode(@Valid @RequestBody DataRequest dataRequest) {
-        return authService.getValidateCode(dataRequest);
+    @GetMapping("/getValidateCode")
+    public DataResponse getValidateCode() {
+        return authService.getValidateCode();
     }
 
     @PostMapping("/testValidateInfo")
@@ -44,4 +44,16 @@ public class AuthController {
     public DataResponse registerUser(@Valid @RequestBody DataRequest dataRequest) {
         return authService.registerUser(dataRequest);
     }
+    @PostMapping("/forgetPasswordAuthentication")
+    public DataResponse forgetPasswordAuthentication(@Valid @RequestBody DataRequest dataRequest) {
+        return authService.forgetPasswordAuthentication(dataRequest);
+    }
+    @PostMapping("/forgetPasswordChangePassword")
+    public DataResponse forgetPasswordChangePassword(@Valid @RequestBody DataRequest dataRequest) {
+        return authService.forgetPasswordChangePassword(dataRequest);
+    }
+//    @PostMapping("/forgetPasswordChange")
+//    public DataResponse forgetPasswordChange(@Valid @RequestBody DataRequest dataRequest) {
+//        return authService.forgetPasswordChange(dataRequest);
+//    }
 }
