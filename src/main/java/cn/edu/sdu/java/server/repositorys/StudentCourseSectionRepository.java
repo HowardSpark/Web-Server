@@ -19,4 +19,7 @@ public interface StudentCourseSectionRepository extends JpaRepository<StudentCou
     List<StudentCourseSection> findByPerson(Integer personId);
 
     boolean existsByStudentPersonIdAndCourseSectionCourseSectionId(Integer personId, Integer courseSectionId);
+
+    @Query("from StudentCourseSection scs join fetch scs.courseSection cs join fetch cs.course c join fetch cs.teacher t where scs.student.personId=?1")
+    List<StudentCourseSection> findByPersonWithJoin(Integer personId);
 }

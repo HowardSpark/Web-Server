@@ -6,6 +6,8 @@ import cn.edu.sdu.java.server.services.StudentCourseSectionService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/studentCourseSection")
@@ -19,5 +21,11 @@ public class StudentCourseSectionController {
     @PostMapping("/getStudentCourseSectionList")
     public DataResponse getStudentCourseSectionList(@Valid @RequestBody DataRequest dataRequest) {
         return studentCourseSectionService.getStudentCourseSectionList(dataRequest);
+    }
+
+    @PostMapping("/getMyCourseTable")
+    public DataResponse getMyCourseTable(@RequestBody Map<String, Integer> params) {
+        Integer personId = params.get("personId");
+        return studentCourseSectionService.getStudentCourseTable(personId);
     }
 }

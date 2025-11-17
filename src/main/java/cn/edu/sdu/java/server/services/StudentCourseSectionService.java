@@ -1,9 +1,6 @@
 package cn.edu.sdu.java.server.services;
 
-import cn.edu.sdu.java.server.models.Course;
-import cn.edu.sdu.java.server.models.CourseSection;
-import cn.edu.sdu.java.server.models.Student;
-import cn.edu.sdu.java.server.models.StudentCourseSection;
+import cn.edu.sdu.java.server.models.*;
 import cn.edu.sdu.java.server.payload.request.DataRequest;
 import cn.edu.sdu.java.server.payload.response.DataResponse;
 import cn.edu.sdu.java.server.repositorys.CourseRepository;
@@ -49,6 +46,31 @@ public class StudentCourseSectionService {
             dataList.add(m);
         }
         return CommonMethod.getReturnData(dataList);
+    }
+
+    public DataResponse getStudentCourseTable(Integer personId) {
+        // 1. 查询学生已选课程记录
+        List<StudentCourseSection> scsList = studentCourseSectionRepository.findByPerson(personId);
+        List<Map<String, Object>> courseTable = new ArrayList<>();
+
+        for (StudentCourseSection scs : scsList) {
+            Map<String, Object> courseInfo = new HashMap<>();
+            CourseSection cs = scs.getCourseSection();
+            Course course = cs.getCourse();
+            Teacher teacher = cs.getTeacher();
+
+            // 2. 封装课程表核心字段
+            courseInfo.put("studentCourseSectionId", scs.getStudentCourseSectionId());
+            courseInfo.put("courseName", course.getName());
+            courseInfo.put("num", cs.getNum());
+            courseInfo.put("teacherName", teacher.getPerson().getName());
+            courseInfo.put("place", cs.getPlace());
+            courseInfo.put("time", cs.getTime()); // 时间编码
+            courseInfo.put("status", scs.getStatus()); // 选课状态
+
+            courseTable.add(courseInfo);
+        }
+        return CommonMethod.getReturnData(courseTable);
     }
 //    public DataResponse getStudentCourseSectionList(DataRequest dataRequest) {
 //        // 1. 获取当前学生ID（从登录态/请求参数获取）
