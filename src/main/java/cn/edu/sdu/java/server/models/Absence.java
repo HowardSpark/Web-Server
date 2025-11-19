@@ -36,7 +36,7 @@ public class Absence  {
     private String endTime;
     @Size(max = 20)
     private String absenceType;
-    @Size(max = 20)
+    @Size(max = 100)
     private String absenceReason;
 
     private String result;
