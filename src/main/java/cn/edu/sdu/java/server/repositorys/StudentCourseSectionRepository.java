@@ -24,9 +24,5 @@ public interface StudentCourseSectionRepository extends JpaRepository<StudentCou
 
     @Query("from StudentCourseSection scs join fetch scs.courseSection cs join fetch cs.course c join fetch cs.teacher t where scs.student.personId=?1")
     List<StudentCourseSection> findByPersonWithJoin(Integer personId);
-
-    @Query("select cs.time from CourseSection cs " +
-            "where cs.id in (select scs.courseSection.id from StudentCourseSection scs " +
-            "              where scs.student.id = :studentId)")
-    Set<Integer> findOccupiedTimes(@Param("studentId") Integer studentId);
+    
 }
