@@ -30,7 +30,9 @@ public class StudentCourseSectionService {
         List<StudentCourseSection> scsList = studentCourseSectionRepository.findAll();
         List<Map<String, Object>> dataList = new ArrayList<>();
         Map<String, Object> m;
+        Course c;
         CourseSection cs;
+        Teacher t;
         Student s;
         for(StudentCourseSection scs : scsList) {
             m = new HashMap<>();
@@ -38,6 +40,17 @@ public class StudentCourseSectionService {
             cs = scs.getCourseSection();
             if(cs != null) {
                 m.put("courseSectionId", cs.getCourseSectionId());
+                m.put("time", cs.getTime());
+                m.put("place", cs.getPlace());
+            }
+            c = scs.getCourseSection().getCourse();
+            if(c != null) {
+                m.put("courseId", c.getCourseId());
+                m.put("courseName", c.getName());
+            }
+            t = cs.getTeacher();
+            if(t != null) {
+                m.put("teacherName", t.getPerson().getName());
             }
             s = scs.getStudent();
             if(s != null) {
@@ -72,35 +85,5 @@ public class StudentCourseSectionService {
         }
         return CommonMethod.getReturnData(courseTable);
     }
-//    public DataResponse getStudentCourseSectionList(DataRequest dataRequest) {
-//        // 1. 获取当前学生ID（从登录态/请求参数获取）
-//        Integer personId = CommonMethod.getPersonId();
-//
-//        // 2. 查询该学生已选的课程段（关联课程信息）
-//        List<StudentCourseSection> scsList = studentCourseSectionRepository.findByPerson(personId);
-//        List<Map<String, Object>> dataList = new ArrayList<>();
-//
-//        for (StudentCourseSection scs : scsList) {
-//            Map<String, Object> courseMap = new HashMap<>();
-//            CourseSection cs = scs.getCourseSection();
-//            Student student = scs.getStudent();
-//            Course course = cs.getCourse();
-//
-//            // 🔥 核心：直接返回原始time字段，不解析weekDay和period
-//            Integer time = cs.getTime(); // 原始time值（如"101"、"304"）
-//            courseMap.put("time", time); // 仅返回原始time
-//
-//            // 组装其他必要字段（前端显示用）
-//            courseMap.put("studentCourseSectionId", scs.getStudentCourseSectionId());
-//            courseMap.put("courseSectionId", cs.getCourseSectionId());
-//            courseMap.put("courseName", course.getName());
-//            courseMap.put("place", cs.getPlace()); // 教室
-//            courseMap.put("studentName", student.getPerson().getName());
-//
-//            dataList.add(courseMap);
-//        }
-//
-//        return CommonMethod.getReturnData(dataList);
-//    }
 
 }
