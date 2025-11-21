@@ -7,6 +7,17 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * CourseSection 课次
+ * Integer courseSectionId 课次ID，主键
+ * String num 课序号
+ * String place 上课地点
+ * Boolean optional 是否可选
+ * Integer time 上课时间代码
+ * Teacher teacher 关联上课教师
+ * Course course 关联课程
+ */
+
 @Getter
 @Setter
 @Entity
