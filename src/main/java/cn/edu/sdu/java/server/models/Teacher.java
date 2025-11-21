@@ -6,6 +6,14 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Teacher 教师信息
+ * Integer teacherId 志愿记录ID，主键
+ * Person person 关联人员对象
+ * String title 教师职称
+ * String degree 学位
+ */
+
 @Getter
 @Setter
 @Entity
