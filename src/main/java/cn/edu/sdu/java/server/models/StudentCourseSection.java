@@ -6,6 +6,14 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * StudentCourseSection 学生选课信息
+ * Integer StudentCourseSectionId 选课记录ID，主键
+ * Student student 关联学生对象
+ * CourseSection courseSection 关联课次对象
+ * Boolean status 选课状态
+ */
+
 @Getter
 @Setter
 @Entity
